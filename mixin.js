@@ -7,14 +7,13 @@ const defaultProps = require('./defaultProps.js');
 const converter = require('./converter.js');
 
 const sliderProps = {
-  values: PropTypes.arrayOf(PropTypes.number),
+  value: PropTypes.number,
 
   onValuesChangeStart: PropTypes.func,
   onValuesChange: PropTypes.func,
   onValuesChangeFinish: PropTypes.func,
 
   sliderLength: PropTypes.number,
-  sliderOrientation: PropTypes.string,
   touchDimensions: PropTypes.object,
 
   customMarker: PropTypes.func,
@@ -41,19 +40,16 @@ module.exports = {
   },
 
   getInitialState() {
-    this.optionsArray = this.props.optionsArray || converter.createArray(this.props.min,this.props.max,this.props.step);
-    this.stepLength = this.props.sliderLength/this.optionsArray.length;
+    this.optionsArray = this.props.optionsArray || converter.createArray(this.props.min, this.props.max, this.props.step);
+    this.stepLength = this.props.sliderLength / this.optionsArray.length;
 
-    var initialValues = this.props.values.map(value => converter.valueToPosition(value,this.optionsArray,this.props.sliderLength));
+    var initialValue = converter.valueToPosition(this.props.value, this.optionsArray, this.props.sliderLength);
 
     return {
       pressedOne: true,
-      valueOne: this.props.values[0],
-      valueTwo: this.props.values[1],
-      pastOne: initialValues[0],
-      pastTwo: initialValues[1],
-      positionOne: initialValues[0],
-      positionTwo: initialValues[1]
+      valueOne: this.props.value,
+      pastOne: initialValue,
+      positionOne: initialValue
     };
   },
 
@@ -76,20 +72,17 @@ module.exports = {
     this._panResponderOne = customPanResponder(this.startOne, this.moveOne, this.endOne);
   },
 
-  set(values) {
+  set(value) {
     this.optionsArray = this.props.optionsArray || converter.createArray(this.props.min,this.props.max,this.props.step);
     this.stepLength = this.props.sliderLength/this.optionsArray.length;
 
-    var initialValues = values.map(value => converter.valueToPosition(value,this.optionsArray,this.props.sliderLength));
+    var initialValue = converter.valueToPosition(this.props.value, this.optionsArray, this.props.sliderLength);
 
     this.setState({
       pressedOne: true,
-      valueOne: values[0],
-      valueTwo: values[1],
-      pastOne: initialValues[0],
-      pastTwo: initialValues[1],
-      positionOne: initialValues[0],
-      positionTwo: initialValues[1]
+      valueOne: value,
+      pastOne: initialValue,
+      positionOne: initialValue,
     });
   },
 
@@ -105,10 +98,7 @@ module.exports = {
       pastOne: this.state.positionOne,
       onePressed: !this.state.onePressed
     }, function () {
-      var change = [this.state.valueOne];
-      if (this.state.valueTwo) {
-        change.push(this.state.valueTwo);
-      }
+      var change = this.state.valueOne;
       this.props.onValuesChangeFinish && this.props.onValuesChangeFinish(change);
     });
   },

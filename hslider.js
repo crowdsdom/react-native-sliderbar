@@ -34,7 +34,7 @@ const HSlider = React.createClass({
   moveOne(gestureState) {
     let unconfined = gestureState.dx + this.state.pastOne;
     let bottom     = 0;
-    let top        = (this.state.positionTwo - this.stepLength) || this.props.sliderLength;
+    let top        = this.props.sliderLength;
     let confined   = unconfined < bottom ? bottom : (unconfined > top ? top : unconfined);
     let value      = converter.positionToValue(this.state.positionOne, this.optionsArray, this.props.sliderLength);
 
@@ -49,26 +49,22 @@ const HSlider = React.createClass({
       this.setState({
         valueOne: value
       }, function () {
-        let change = [this.state.valueOne];
-        if (this.state.valueTwo) {
-          change.push(this.state.valueTwo);
-        }
+        let change = this.state.valueOne;
         this.props.onValuesChange && this.props.onValuesChange(change);
       });
     }
   },
 
   render() {
-    let {positionOne, positionTwo} = this.state;
+    let {positionOne} = this.state;
     let {selectedStyle, unselectedStyle, sliderLength} = this.props;
-    let twoMarkers = positionTwo;
 
     let trackOneLength = positionOne;
-    let trackOneStyle = twoMarkers ? unselectedStyle : selectedStyle;
-    let trackThreeLength = twoMarkers ? sliderLength - (positionTwo) : 0;
-    let trackThreeStyle = unselectedStyle;
-    let trackTwoLength = sliderLength - trackOneLength - trackThreeLength;
-    let trackTwoStyle = twoMarkers ? selectedStyle : unselectedStyle;
+    let trackOneStyle = selectedStyle;
+
+    let trackTwoLength = sliderLength - trackOneLength;
+    let trackTwoStyle = unselectedStyle;
+
     let Marker = this.props.customMarker;
     let {slipDisplacement, height, width, borderRadius} = this.props.touchDimensions;
     let touchStyle = {
