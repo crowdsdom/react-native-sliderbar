@@ -1,7 +1,7 @@
 'use strict';
 
 const React = require('react-native');
-const { PropTypes, PanResponder } = React;
+const { PropTypes, PanResponder, Image } = React;
 
 const defaultProps = require('./defaultProps.js');
 const converter = require('./converter.js');
@@ -29,7 +29,9 @@ const sliderProps = {
   selectedStyle: PropTypes.object,
   unselectedStyle: PropTypes.object,
   markerStyle: PropTypes.object,
-  pressedMarkerStyle: PropTypes.object
+  pressedMarkerStyle: PropTypes.object,
+
+  thumbImage: Image.propTypes.source
 };
 
 module.exports = {

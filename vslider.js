@@ -11,12 +11,14 @@ const SliderMixin = require('./mixin.js');
 
 const styles = StyleSheet.create({
   container: {
+    width: 30,
     alignItems: 'center'
   },
   fullTrack: {
     flexDirection: 'column'
   },
   track: {
+    width: 7,
     alignItems: 'center'
   },
   touch: {
@@ -74,20 +76,23 @@ const VSlider = React.createClass({
       borderRadius: borderRadius || 0
     };
 
-    if (trackOneLength <= 3.5) {
-      trackTwoLength -= 3.5 - trackOneLength;
-      trackOneLength = 3.5;
-    } else if (trackTwoLength <= 3.5) {
-      trackOneLength -= 3.5 - trackTwoLength;
-      trackTwoLength = 3.5;
+    if (this.props.trackStyle.borderRadius) {
+      const trackBorderRadius = this.props.trackStyle.borderRadius;
+      if (trackOneLength <= trackBorderRadius) {
+        trackTwoLength -= trackBorderRadius - trackOneLength;
+        trackOneLength = trackBorderRadius;
+      } else if (trackTwoLength <= trackBorderRadius) {
+        trackOneLength -= trackBorderRadius - trackTwoLength;
+        trackTwoLength = trackBorderRadius;
+      }
     }
     let fullTrackLength = trackOneLength + trackTwoLength;
 
     return (
-      <View style={[styles.container, this.props.containerStyle, {width: 30}]}>
+      <View style={[styles.container, this.props.containerStyle]}>
         <View style={[styles.fullTrack, {height: fullTrackLength}]}>
-          <View style={[this.props.trackStyle, styles.track, trackOneStyle, {height: trackOneLength, width: 7}]} />
-          <View style={[this.props.trackStyle, styles.track, trackTwoStyle, {height: trackTwoLength, width: 7}]}>
+          <View style={[styles.track, this.props.trackStyle, trackOneStyle, {height: trackOneLength}]} />
+          <View style={[styles.track, this.props.trackStyle, trackTwoStyle, {height: trackTwoLength}]}>
             <View
               style={[styles.touch,touchStyle]}
               ref={component => this._markerOne = component}
@@ -97,6 +102,7 @@ const VSlider = React.createClass({
                 pressed={this.state.onePressed}
                 markerStyle={this.props.markerStyle}
                 pressedMarkerStyle={this.props.pressedMarkerStyle}
+                source={this.props.thumbImage}
               />
             </View>
           </View>

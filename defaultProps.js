@@ -35,10 +35,8 @@ var defaultProps = {
     backgroundColor: 'grey'
   },
   containerStyle: {
-    //height:30,
   },
   trackStyle: {
-    //height:7,
     borderRadius: 3.5,
   },
   touchDimensions: {
