@@ -91,7 +91,7 @@ const HSlider = React.createClass({
 
     let thumb = (
       <View
-        style={[styles.touch,touchStyle]}
+        style={[styles.touch,touchStyle, {position: 'absolute', left: trackOneLength-width/2, top: 0}]}
         ref={component => this._markerOne = component}
         {...this._panResponderOne.panHandlers}
       >
@@ -103,14 +103,40 @@ const HSlider = React.createClass({
         />
       </View>
     );
-    return (
-      <View style={[styles.container, this.props.containerStyle]}>
-        <View style={[styles.fullTrack, {width: fullTrackLength}]}>
-          <View style={[styles.track, this.props.trackStyle, trackOneStyle, {width: trackOneLength}]} />
-          <View style={[styles.track, this.props.trackStyle, trackTwoStyle, {width: trackTwoLength}]}>
-            {thumb}
+    let trackOneView;
+    let trackTwoView;
+    let trackView;
+    if (this.props.trackImage) {
+      trackView = <Image source={this.props.trackImage} resizeMode='cover' style={{width: fullTrackLength}} />;
+    } else {
+      if (this.props.selectedTrackImage) {
+        trackOneView = (
+          <View style={[styles.track, this.props.trackStyle, trackOneStyle, {width: trackOneLength, borderBottomRightRadius: 0, borderTopRightRadius: 0, overflow: 'hidden'}]}>
+            <Image source={this.props.selectedTrackImage} resizeMode='cover'/>
           </View>
-        </View>
+        );
+      } else {
+        trackOneView = <View style={[styles.track, this.props.trackStyle, trackOneStyle, {width: trackOneLength, borderBottomRightRadius: 0, borderTopRightRadius: 0}]} />;
+      }
+      if (this.props.unselectedTrackImage) {
+        trackTwoView = (
+          <View style={[styles.track, this.props.trackStyle, trackTwoStyle, {width: trackTwoLength, borderBottomLeftRadius: 0, borderTopLeftRadius: 0, overflow: 'hidden'}]}>
+            <Image source={this.props.unselectedTrackImage} resizeMode='cover'/>
+          </View>
+        );
+      } else {
+        trackTwoView = (
+          <View style={[styles.track, this.props.trackStyle, trackTwoStyle, {width: trackTwoLength, borderBottomLeftRadius: 0, borderTopLeftRadius: 0}]} />
+        );
+      }
+    }
+
+    return (
+      <View style={[styles.container, this.props.containerStyle, styles.fullTrack, {width: fullTrackLength, alignItems: 'center'}]}>
+        {trackView}
+        {trackOneView}
+        {trackTwoView}
+        {thumb}
       </View>
     );
   }
