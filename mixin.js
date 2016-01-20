@@ -31,7 +31,9 @@ const sliderProps = {
   markerStyle: PropTypes.object,
   pressedMarkerStyle: PropTypes.object,
 
-  thumbImage: Image.propTypes.source
+  thumbImage: Image.propTypes.source,
+  selectedTrackImage: Image.propTypes.source,
+  unselectedTrackImage: Image.propTypes.source
 };
 
 module.exports = {

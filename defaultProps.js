@@ -24,7 +24,7 @@ var BasicMarker = React.createClass({
 });
 
 var defaultProps = {
-  values: [0],
+  value: 0,
   step: 1,
   min:0,
   max:10,

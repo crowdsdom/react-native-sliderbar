@@ -3,7 +3,8 @@
 const React = require('react-native');
 const {
   StyleSheet,
-  View
+  View,
+  Image
 } = React;
 
 const converter = require('./converter.js');
@@ -88,23 +89,26 @@ const VSlider = React.createClass({
     }
     let fullTrackLength = trackOneLength + trackTwoLength;
 
+    let thumb = (
+      <View
+        style={[styles.touch,touchStyle]}
+        ref={component => this._markerOne = component}
+        {...this._panResponderOne.panHandlers}
+      >
+        <Marker
+          pressed={this.state.onePressed}
+          markerStyle={this.props.markerStyle}
+          pressedMarkerStyle={this.props.pressedMarkerStyle}
+          source={this.props.thumbImage}
+        />
+      </View>
+    );
     return (
       <View style={[styles.container, this.props.containerStyle]}>
         <View style={[styles.fullTrack, {height: fullTrackLength}]}>
           <View style={[styles.track, this.props.trackStyle, trackOneStyle, {height: trackOneLength}]} />
           <View style={[styles.track, this.props.trackStyle, trackTwoStyle, {height: trackTwoLength}]}>
-            <View
-              style={[styles.touch,touchStyle]}
-              ref={component => this._markerOne = component}
-              {...this._panResponderOne.panHandlers}
-            >
-              <Marker
-                pressed={this.state.onePressed}
-                markerStyle={this.props.markerStyle}
-                pressedMarkerStyle={this.props.pressedMarkerStyle}
-                source={this.props.thumbImage}
-              />
-            </View>
+            {thumb}
           </View>
         </View>
       </View>
