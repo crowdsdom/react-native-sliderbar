@@ -107,7 +107,7 @@ const VSlider = React.createClass({
     let trackTwoView;
     let trackView;
     if (this.props.trackImage) {
-      trackView = <Image source={this.props.trackImage} resizeMode='cover' style={{height: fullTrackLength}} />;
+      trackView = <Image source={this.props.trackImage} style={[{height: fullTrackLength, resizeMode: 'cover'}, this.props.trackStyle]} />;
     } else {
       if (this.props.selectedTrackImage) {
         trackOneView = (
@@ -120,13 +120,13 @@ const VSlider = React.createClass({
       }
       if (this.props.unselectedTrackImage) {
         trackTwoView = (
-          <View style={[styles.track, this.props.trackStyle, trackTwoStyle, {height: trackTwoLength, borderBottomRightRadius: 0, borderBottomLeftRadius: 0, overflow: 'hidden'}]}>
+          <View style={[styles.track, this.props.trackStyle, trackTwoStyle, {height: trackTwoLength, borderTopRightRadius: 0, borderTopLeftRadius: 0, overflow: 'hidden'}]}>
             <Image source={this.props.unselectedTrackImage} resizeMode='cover'/>
           </View>
         );
       } else {
         trackTwoView = (
-          <View style={[styles.track, this.props.trackStyle, trackTwoStyle, {height: trackTwoLength, borderBottomRightRadius: 0, borderBottomLeftRadius: 0}]} />
+          <View style={[styles.track, this.props.trackStyle, trackTwoStyle, {height: trackTwoLength, borderTopRightRadius: 0, borderTopLeftRadius: 0}]} />
         );
       }
     }

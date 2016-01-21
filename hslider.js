@@ -107,7 +107,7 @@ const HSlider = React.createClass({
     let trackTwoView;
     let trackView;
     if (this.props.trackImage) {
-      trackView = <Image source={this.props.trackImage} resizeMode='cover' style={{width: fullTrackLength}} />;
+      trackView = <Image source={this.props.trackImage} style={[{width: fullTrackLength, resizeMode: 'cover'}, this.props.trackStyle]} />;
     } else {
       if (this.props.selectedTrackImage) {
         trackOneView = (
